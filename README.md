@@ -1,5 +1,3 @@
-[![My Skills](https://skillicons.dev/icons?i=nextjs,tailwind,react,vercel,ts,supabase)](https://skillicons.dev)<a href="https://www.buymeacoffee.com/iguangzhengli" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" >
-
 # ChatFiles
 
 ## Deploy with Vercel
@@ -52,30 +50,5 @@ npm run dev
 - [x] Chat with file by langchainjs and supabase vector db.
 
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=guangzhengli/ChatFiles&type=Date)](https://star-history.com/#guangzhengli/ChatFiles&Date)
-
-## Sponsors
-
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/iguangzhengli)
-
-More Sponsor methods:
-
-https://guangzhengli.com/sponsors
-
-### Who is sponsoring this project?
-
-Sponsored by [The best china travel guide website](https://chinagotrip.com)
-
-<p>
-<!-- real-sponsors -->
-<a href="https://github.com/johnliu33"><img src="https://github.com/johnliu33.png" width="50px" alt="johnliu33" /></a>&nbsp;&nbsp;
-<a href="https://github.com/noxonsu"><img src="https://github.com/noxonsu.png" width="50px" alt="noxonsu" /></a>&nbsp;&nbsp;
-<a href="https://github.com/magedhelmy1"><img src="https://github.com/magedhelmy1.png" width="50px" alt="magedhelmy1" /></a>&nbsp;&nbsp;
-Zhang Andy&nbsp;&nbsp;
-<a href="https://github.com/Huayu-Qin"><img src="https://github.com/Huayu-Qin.png" width="50px" alt="Huayu-Qin" /></a>&nbsp;&nbsp;
-<!-- real-sponsors -->
-</p>
 
 
