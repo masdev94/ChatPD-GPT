@@ -25,12 +25,10 @@ export const ChatMessage: FC<Props> = memo(
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const toggleEditing = () => {
-      setIsEditing(!isEditing);
-    };
+    const toggleEditing = () => setIsEditing(!isEditing);
 
     const handleInputChange = (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
+      event: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
       setMessageContent(event.target.value);
       if (textareaRef.current) {
@@ -40,7 +38,7 @@ export const ChatMessage: FC<Props> = memo(
     };
 
     const handleEditMessage = () => {
-      if (message.content != messageContent) {
+      if (message.content !== messageContent) {
         onEditMessage({ ...message, content: messageContent }, messageIndex);
       }
       setIsEditing(false);
@@ -56,11 +54,9 @@ export const ChatMessage: FC<Props> = memo(
     const copyOnClick = () => {
       if (!navigator.clipboard) return;
 
-      navigator.clipboard.writeText(message.content).then(() => {
+      navigator.clipboard.writeText(message.content as string).then(() => {
         setMessageCopied(true);
-        setTimeout(() => {
-          setMessageCopied(false);
-        }, 2000);
+        setTimeout(() => setMessageCopied(false), 2000);
       });
     };
 
@@ -70,6 +66,27 @@ export const ChatMessage: FC<Props> = memo(
         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
       }
     }, [isEditing]);
+
+    const renderContent = () => {
+      try {
+        const parsed =
+          typeof message.content === 'string'
+            ? JSON.parse(message.content)
+            : message.content;
+
+        if (Array.isArray(parsed)) {
+          return parsed.map((m: any) => m?.data?.content || '').join('\n');
+        }
+
+        if (parsed?.data?.content) {
+          return parsed.data.content;
+        }
+
+        return typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2);
+      } catch {
+        return message.content;
+      }
+    };
 
     return (
       <div
@@ -151,54 +168,53 @@ export const ChatMessage: FC<Props> = memo(
               </div>
             ) : (
               <>
-                  <MemoizedReactMarkdown
-                    className="prose dark:prose-invert"
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeMathjax]}
-                    components={{
-                      code({ node, inline, className, children, ...props }) {
-                        const match = /language-(\w+)/.exec(className || '');
+                <MemoizedReactMarkdown
+                  className="prose dark:prose-invert"
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeMathjax]}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || '');
 
-                        return !inline && match ? (
-                          <CodeBlock
-                            key={Math.random()}
-                            language={match[1]}
-                            value={String(children).replace(/\n$/, '')}
-                            {...props}
-                          />
-                        ) : (
-                          <code className={className} {...props}>
-                            {children}
-                          </code>
-                        );
-                      },
-                      table({ children }) {
-                        return (
-                          <table className="border-collapse border border-black py-1 px-3 dark:border-white">
-                            {children}
-                          </table>
-                        );
-                      },
-                      th({ children }) {
-                        return (
-                          <th className="break-words border border-black bg-gray-500 py-1 px-3 text-white dark:border-white">
-                            {children}
-                          </th>
-                        );
-                      },
-                      td({ children }) {
-                        return (
-                          <td className="break-words border border-black py-1 px-3 dark:border-white">
-                            {children}
-                          </td>
-                        );
-                      },
-                    }}
-                  >
-                    {Array.isArray(message.content)
-                      ? message.content.map((m: any) => m?.data?.content || '').join('\n')
-                      : message.content}
-                  </MemoizedReactMarkdown>
+                      return !inline && match ? (
+                        <CodeBlock
+                          key={Math.random()}
+                          language={match[1]}
+                          value={String(children).replace(/\n$/, '')}
+                          {...props}
+                        />
+                      ) : (
+                        <code className={className} {...props}>
+                          {children}
+                        </code>
+                      );
+                    },
+                    table({ children }) {
+                      return (
+                        <table className="border-collapse border border-black py-1 px-3 dark:border-white">
+                          {children}
+                        </table>
+                      );
+                    },
+                    th({ children }) {
+                      return (
+                        <th className="break-words border border-black bg-gray-500 py-1 px-3 text-white dark:border-white">
+                          {children}
+                        </th>
+                      );
+                    },
+                    td({ children }) {
+                      return (
+                        <td className="break-words border border-black py-1 px-3 dark:border-white">
+                          {children}
+                        </td>
+                      );
+                    },
+                  }}
+                >
+                  {renderContent()}
+                </MemoizedReactMarkdown>
+
                 {(isHovering || window.innerWidth < 640) && (
                   <CopyButton
                     messagedCopied={messagedCopied}
@@ -211,6 +227,7 @@ export const ChatMessage: FC<Props> = memo(
         </div>
       </div>
     );
-  },
+  }
 );
+
 ChatMessage.displayName = 'ChatMessage';
